@@ -2,7 +2,7 @@ const { expect } = require('chai')
 const request = require('request')
 
 describe('Status and Content', () => {
-    
+
     describe('Main page', () => {
 
         it('status', done => {
@@ -24,7 +24,14 @@ describe('Status and Content', () => {
     describe('About page', done => {
         it('status', done => {
             request('http://localhost:8080/about', (err, response, body) => {
-                expect(response.statusCode).to.equal(404)
+                expect(response.statusCode).to.equal(200)
+                done()
+            })
+        })
+
+        it('content', done => {
+            request('http://localhost:8080/about', (err, response, body) => {
+                expect(body).to.contain('About')
                 done()
             })
         })
