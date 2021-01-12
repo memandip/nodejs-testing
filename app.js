@@ -10,3 +10,5 @@ app.get('/about', (req, res) => {
 })
 
 app.listen(8080, _ => console.log('App listenting on port 8080.'))
+
+module.exports = app

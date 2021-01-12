@@ -1,61 +1,37 @@
 const { expect } = require('chai')
-const request = require('request')
+const supertest = require('supertest')
+const app = supertest(require('../app'))
 
 describe('Status and Content', () => {
 
     describe('Main page', () => {
 
-        it('status', done => {
-            request('http://localhost:8080/', (err, response, body) => {
-                expect(response.statusCode).to.equal(200)
-                done()
-            })
+        it('status', function (done) {
+            app.get('/').expect(200, done)
         })
 
-        it('content', done => {
-            request('http://localhost:8080/', (err, response, body) => {
-                expect(body).to.equal('Hello World')
-                done()
-            })
+        it('content', function (done) {
+            app.get('/').expect('Hello World', done)
         })
 
     })
 
-    describe('About page', done => {
-        it('status', done => {
-            request('http://localhost:8080/about', (err, response, body) => {
-                expect(response.statusCode).to.equal(200)
-                done()
-            })
+    describe('About page', () => {
+
+        it('status', function (done) {
+            app.get('/about').expect(200, done)
         })
 
-        it('content', done => {
-            request('http://localhost:8080/about', (err, response, body) => {
-                expect(body).to.contain('About')
-                done()
-            })
+        it('content', function (done) {
+            app.get('/about')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err)
+                    expect(res.text).to.contain('About')
+                    return done()
+                })
         })
+
     })
 
 })
-
-// it('Main page content', done => {
-//     request('http://localhost:8080', (err, response, body) => {
-//         expect(body).to.contain('Hello World')
-//         done()
-//     })
-// })
-
-// it('Main page status', done => {
-//     request('http://localhost:8080', (err, response, body) => {
-//         expect(response.statusCode).to.equal(200)
-//         done()
-//     })
-// })
-
-// it('About page content', done => {
-//     request('http://localhost:8080/about', (err, response, body) => {
-//         expect(response.statusCode).to.equal(404)
-//         done()
-//     })
-// })
