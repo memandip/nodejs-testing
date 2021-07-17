@@ -8,11 +8,14 @@ trigger:
 
 variables:
 
+  # Azure Resource Manager connection created during pipeline creation
+  azureSubscription: '71c0c779-775c-4d44-8472-1a456e86e95f'
+
   # Web app name
-  webAppName: 'nodejs-testing-app'
+  webAppName: 'khatra-app'
 
   # Environment name
-  environmentName: 'dev'
+  environmentName: 'development'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -67,7 +70,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure Web App Deploy: '
             inputs:
-              azureSubscription: $(AZURE_SUBSCRIPTION_ID)
+              azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
               runtimeStack: 'NODE|10.10'
